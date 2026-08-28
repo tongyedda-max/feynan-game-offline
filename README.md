@@ -1,49 +1,23 @@
-# 訊號教室｜GitHub Pages 單一 HTML 發布
+# 訊號教室｜GitHub Pages 多檔發布
 
-本專案已額外產生 **單一、自包含的 `index.html`**。JavaScript、CSS、網站使用的圖片與字體均已內嵌，不需要上傳 `assets/` 目錄，也不會載入外部 AI、圖片、字體或分析服務。
-
-發布檔位於：`release-single/index.html`。檔案約 **43 MB**，低於 GitHub 一般單檔提交上限；請保留檔名為 `index.html`。
-
-## 上傳到 GitHub Pages
-
-請在你的 GitHub 儲存庫根目錄放入此一個檔案，結構如下：
+這個版本把網站拆成多個靜態檔案，避免單一 HTML 過大。請將 ZIP 解壓後的**全部內容**上傳到 GitHub 儲存庫根目錄，不要只上傳 `index.html`。
 
 ```text
 你的儲存庫/
-└── index.html
+├── index.html
+└── assets/
+    ├── JavaScript 檔案
+    ├── CSS 檔案
+    ├── fonts.css 及 fonts/*.ttf
+    └── 網站圖片
 ```
 
-提交並推送後，到 GitHub 儲存庫的 **Settings → Pages**，將 Source 設為 **Deploy from a branch**，選擇你的發布分支（通常是 `main`）及資料夾 **`/ (root)`**。儲存後，GitHub Pages 會發布該檔案。
+`index.html` 和 `assets/` 必須保持上述相對位置。不要改名或移動 `assets` 資料夾；GitHub Pages 會由根目錄載入 `index.html`。
 
-> 這是純前端、離線優先網站。課堂進度、人物工坊和設定只保存在每個瀏覽器、每個網域自己的 localStorage；由 Manus 網域轉到 GitHub Pages 時，不會自動搬遷原有戰役。請先在舊網站的「戰役資料」下載 JSON，再在 GitHub Pages 版本匯入。
+到 GitHub 儲存庫的 **Settings → Pages**，將 Source 設為 **Deploy from a branch**，選擇你的發布分支（通常是 `main`）及 **`/ (root)`**。這個版本不需要建置指令，也不需要 Node.js。
 
-## 網址與路由
+網站採用 hash 路由，適合 GitHub Pages 的靜態託管。根頁是 `/#/`；學生聯絡簿是 `/#/students`；授課紀錄是 `/#/records`；Profile 是 `/#/profile`；指南是 `/#/guide`；戰役資料是 `/#/settings`；範例試跑是 `/#/trial`。這些頁面可以直接加入書籤，不會因 GitHub Pages 的伺服器路由而出現 404。
 
-GitHub Pages 不會替單一 HTML 處理 React 的伺服器路由，因此發布檔已改用 **hash 路由**。根頁可用 `https://你的帳號.github.io/你的倉庫/#/` 開啟，以下連結可直接分享或加入書籤。
+這是純前端、離線優先網站。課堂進度、人物工坊和設定保存在瀏覽器自己的 localStorage，不會上傳至外部服務。若要由原本的網站轉移進度，請先在「戰役資料」下載 JSON，再在 GitHub Pages 版本匯入。
 
-| 頁面 | hash 路徑 |
-|---|---|
-| 視訊大廳 | `#/` 或 `#/lobby` |
-| 授課紀錄檔案 | `#/records` |
-| 學生聯絡簿 | `#/students` |
-| 學生 Profile | `#/profile` |
-| 使用指南 | `#/guide` |
-| 指南學生管理章節 | `#guide-students` |
-| 戰役資料 | `#/settings` |
-| 範例回覆試跑 | `#/trial` |
-
-已驗證從 Profile 返回學生聯絡簿、學生聯絡簿開啟人物工坊、指南深層錨點，以及本機 JSON 匯出。
-
-## 日後重新產生
-
-如日後修改原始 React 專案，在專案根目錄執行：
-
-```bash
-pnpm build:single
-```
-
-新檔會重新寫入 `release-single/index.html`。單檔發布配置與正常 `pnpm build` 分開；它不改變現有網站的 pathname 路由與部署輸出。
-
-## 直接開啟檔案
-
-已在 Chromium 以 `file://` 測試直接開啟及 `#/students`、`#/guide` 等 hash 路徑。實際發布仍建議使用 GitHub Pages，因為部分瀏覽器可能對 `file://` 的 localStorage 或下載策略設有限制。
+本多檔版本已將可內嵌的圖片、字體和 CSS／JavaScript 依賴放在 ZIP 內；不需要額外下載資產，也不依賴 Manus 儲存服務、Google Fonts、外部 AI 或分析服務。
